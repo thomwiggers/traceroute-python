@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+
 import socket
 import os
 import sys
@@ -102,6 +104,25 @@ def doOnePing(destAddr, timeout, ttl):
     return delay
 
 
+def print_part(delay, address, prevaddr):
+    if not delay:
+        print('*', end=' ', flush=True)
+        return
+
+    delay *= 1000
+    if not prevaddr == address:
+        try:
+            host, _, _ = socket.gethostbyaddr(address)
+        except:
+            host = address
+
+        print('{} ({})  {:.3f} ms'.format(host, address, delay),
+              end=' ', flush=True)
+    else:
+        print(' {:.3f} ms'.format(delay),
+              end=' ', flush=True)
+
+
 def ping(host, timeout, maxHops):
     # timeout=1 means: If one second goes by without a reply from the server,
     # the client assumes that either the client's ping or the server's pong is
@@ -109,31 +130,20 @@ def ping(host, timeout, maxHops):
     dest = socket.gethostbyname(host)
     print("traceroute to %s (%s), %d hops max" % (host, dest, maxHops))
     # Send ping requests to a server separated by approximately one second
-    ttl = 1
-    while ttl <= maxHops:
-        delay, address, info = doOnePing(dest, timeout, ttl)
 
-        if info == SOCKET_TIMEOUT:
-            print("socket timed out")
-            break
+    for ttl in range(1, maxHops+1):
+        print('{:2} '.format(ttl), end=' ', flush=True)
 
-        delay2, _, _ = doOnePing(dest, timeout, ttl)
-        delay3, _, _ = doOnePing(dest, timeout, ttl)
+        prevaddr = None
+        for i in range(3):
+            delay, address, info = doOnePing(dest, timeout, ttl)
+            print_part(delay, address, prevaddr)
+            prevaddr = address
 
-        try:
-            host, _, _ = socket.gethostbyaddr(address)
-        except:
-            host = "No host information available"
-
-        print("{}  {}  {}  {}, {} [{}]".format(
-            ttl, delay or '*', delay2 or '*', delay3 or '*', address, host
-            ))
-        ttl += 1
+        print()
 
         if info == DESTINATION_REACHED:
             break
-        time.sleep(1)  # one second
-    return delay
 
 
 def run():
@@ -157,7 +167,9 @@ def run():
         print("You need to be root to run this program!")
         exit(1)
 
-    ping(args['<host>'], float(args['--wait'] or 5.0), int(args['--max-hops'] or 30))
+    ping(args['<host>'],
+         float(args['--wait'] or 5.0),
+         int(args['--max-hops'] or 30))
 
 if __name__ == '__main__':
     run()

@@ -123,7 +123,7 @@ def print_part(delay, address, prevaddr):
               end=' ', flush=True)
 
 
-def ping(host, timeout, maxHops):
+def traceroute(host, timeout, maxHops):
     # timeout=1 means: If one second goes by without a reply from the server,
     # the client assumes that either the client's ping or the server's pong is
     # lost
@@ -171,7 +171,7 @@ def run():
         print("You need to be root to run this program!")
         exit(1)
 
-    ping(args['<host>'],
+    traceroute(args['<host>'],
          float(args['--wait'] or 5.0),
          int(args['--max-hops'] or 30))
 

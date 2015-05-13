@@ -102,15 +102,15 @@ def doOnePing(destAddr, timeout, ttl):
     return delay
 
 
-def ping(host, timeout=1.0):
+def ping(host, timeout, maxHops):
     # timeout=1 means: If one second goes by without a reply from the server,
     # the client assumes that either the client's ping or the server's pong is
     # lost
     dest = socket.gethostbyname(host)
-    print("Pinging %s using Python:\n" % dest)
+    print("traceroute to %s (%s), %d hops max" % (host, dest, maxHops))
     # Send ping requests to a server separated by approximately one second
     ttl = 1
-    while True:
+    while ttl <= maxHops:
         delay, address, info = doOnePing(dest, timeout, ttl)
 
         if info == SOCKET_TIMEOUT:
@@ -136,5 +136,28 @@ def ping(host, timeout=1.0):
     return delay
 
 
+def run():
+    """
+    Traceroute implementation in Python
+
+    Usage:
+        traceroute [options] <host>
+
+    Options:
+        -h,--max-hops=max_ttl   Specifies the maximum number of hops to probe.
+        -w,--wait=waittime      Set the time (in seconds) to wait for a
+                                response to a probe. (Default 5.0)
+    """
+    import docopt
+    import textwrap
+    import os
+    args = docopt.docopt(textwrap.dedent(run.__doc__), sys.argv[1:])
+
+    if not os.geteuid() == 0:
+        print("You need to be root to run this program!")
+        exit(1)
+
+    ping(args['<host>'], float(args['--wait'] or 5.0), int(args['--max-hops'] or 30))
+
 if __name__ == '__main__':
-    ping("what.cd")
+    run()

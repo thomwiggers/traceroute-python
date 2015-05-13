@@ -148,7 +148,7 @@ def ping(host, timeout, maxHops):
 
 def run():
     """
-    Traceroute implementation in Python
+    Traceroute implementation in Python 3
 
     Usage:
         traceroute [options] <host>
@@ -162,6 +162,10 @@ def run():
     import textwrap
     import os
     args = docopt.docopt(textwrap.dedent(run.__doc__), sys.argv[1:])
+
+    if not sys.version_info > (3, 4, 0):
+        print("You need to use Python 3.4")
+        exit(2)
 
     if not os.geteuid() == 0:
         print("You need to be root to run this program!")

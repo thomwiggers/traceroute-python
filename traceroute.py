@@ -45,15 +45,14 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fetch the ICMPHeader fromt the IP
         icmpHeader = recPacket[20:28]
-        TTL = ord(struct.unpack("s", recPacket[8:9])[0])
 
         icmpType, code, checksum, packetID, sequence = struct.unpack(
             "bbHHh", icmpHeader)
 
-	if icmpType == 11 and code == 0:
-	    return (timeReceived - startTime, addr, None)
-	elif icmpType == 0 and code == 0:
-	    return (timeReceived - startTime, addr, DESTINATION_REACHED)
+        if icmpType == 11 and code == 0:
+            return (timeReceived - startTime, addr, None)
+        elif icmpType == 0 and code == 0:
+            return (timeReceived - startTime, addr, DESTINATION_REACHED)
 
     return (None, None, SOCKET_TIMEOUT)
 
@@ -114,25 +113,25 @@ def ping(host, timeout=1.0):
     while True:
         delay, address, info = doOnePing(dest, timeout, ttl)
 
-	if info == SOCKET_TIMEOUT:
-	    print("socket timed out")
-	    break
+        if info == SOCKET_TIMEOUT:
+            print("socket timed out")
+            break
 
-	delay2, _, _ = doOnePing(dest, timeout, ttl)
-	delay3, _, _ = doOnePing(dest, timeout, ttl)
+        delay2, _, _ = doOnePing(dest, timeout, ttl)
+        delay3, _, _ = doOnePing(dest, timeout, ttl)
 
-	try: 
-	    host, _, _ = socket.gethostbyaddr(address)
-	except:
-	    host = "No host information available"
-	
-	print ("{}  {}  {}  {}, {} [{}]".format(
-	    ttl, delay, delay2, delay3, address, host 
-	    ))
-	ttl += 1
+        try:
+            host, _, _ = socket.gethostbyaddr(address)
+        except:
+            host = "No host information available"
 
-	if info == DESTINATION_REACHED:
-	    break 
+        print("{}  {}  {}  {}, {} [{}]".format(
+            ttl, delay or '*', delay2 or '*', delay3 or '*', address, host
+            ))
+        ttl += 1
+
+        if info == DESTINATION_REACHED:
+            break
         time.sleep(1)  # one second
     return delay
 

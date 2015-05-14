@@ -1,0 +1,42 @@
+# In the documentation_file (which can be pdf or text), you should 
+# give a brief overview on the program, that is:
+#
+# - how it works 
+# - the language 
+# - which OS did you model the output after 
+# - which frameworks did you use 
+
+For this project, we used python 3.4 and the docopt library 
+(https://github.com/docopt/docopt), which helps us with parsing
+the command line arguments. We modelled the output after the 
+linux (ubuntu) traceroute program, and tried to mimic it as much
+as possible.
+
+After the arguments are parsed, the traceroute function is called
+with the target host, the maximum timeout and the maximum number 
+of hops. The target host is then pinged with an increasing TTL 
+from 1 to the maximum number of hops. Each TTL number will ping 
+the target host three times. Each ping will return the round-trip
+delay, the address it reached on that round and some possibly some
+info code. The info code tells us whether the ping timed out or 
+the destination is reached. 
+  The doOnePing function crafts a raw ICMP socket and sets the 
+correct TTL. It then sends one ping and receives the result. 
+  The sendOnePing function crafts an ICMP header and sends it to
+the target address.
+  The receiveOnePing function tries to receive the response until
+it takes longer than the given timeout. If a timeout occurred, the
+function will return that to the caller. The function will parse
+the headers and will return the correct round trip time and 
+address, whether the packet arrived at it's destination or the 
+packet was dropped due to an exceeded TTL.
+
+# You should then explain how the implementation would change were 
+# the Traceroute program send TCP crafted packets over raw sockets 
+# instead of ICMP. What problems would arise in that case, can the
+# same approach be used as in your ICMP implementation? Would your 
+# packets need to have any specific configuration? How would you 
+# catch responses? What responses would you expect? What would be 
+# some of the limitations? To answer some of these questions, you 
+# might want to look deeper into raw sockets.
+%TODO

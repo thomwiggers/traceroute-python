@@ -1,0 +1,85 @@
+Note: all tests were run from a VPS that is located at TransIP
+
+# python traceroute.py www.bol.nl
+traceroute to www.bol.nl (77.94.250.186), 30 hops max
+ 1  v312.router1.dcga.ams.transip.net (37.97.128.220)  0.301 ms  0.210 ms  0.312 ms
+ 2  ibgp.router2.dcga.ams.transip.net (87.253.141.250)  0.221 ms  0.199 ms  0.213 ms
+ 3  pcextreme.nikhef.nl-ix.net (193.239.117.68)  0.444 ms  0.456 ms  0.425 ms
+ 4  mpr1.ams02.pcextreme.nl (92.63.170.18)  0.792 ms  0.757 ms  0.823 ms
+ 5  net3-nl-fw-10.vevida.net (79.99.128.229)  0.787 ms  0.698 ms  0.756 ms
+ 6  net3-nl-iis-217.vevida.net (77.94.250.186)  2.128 ms  1.371 ms  1.431 ms
+
+# python traceroute.py www.ns.nl
+traceroute to www.ns.nl (23.2.119.31), 30 hops max
+ 1  v312.router1.dcga.ams.transip.net (37.97.128.220)  0.186 ms  0.203 ms  0.197 ms
+ 2  ibgp.router2.dcga.ams.transip.net (87.253.141.250)  0.202 ms  0.225 ms  0.211 ms
+ 3  transip.telecity2.openpeering.nl (82.150.159.226)  0.830 ms  0.809 ms  0.846 ms
+ 4  amsix-ams9.netarch.akamai.com (80.249.208.168)  1.759 ms  1.923 ms  1.877 ms
+ 5  a23-2-119-31.deploy.static.akamaitechnologies.com (23.2.119.31)  1.653 ms  1.494 ms  1.756 ms
+
+# python traceroute.py 127.0.0.1
+traceroute to 127.0.0.1 (127.0.0.1), 30 hops max
+ 1  localhost (127.0.0.1)  0.047 ms  0.027 ms  0.022 ms
+
+# python traceroute.py gaia.cs.umass.edu
+traceroute to gaia.cs.umass.edu (128.119.245.12), 30 hops max
+ 1  v312.router1.dcga.ams.transip.net (37.97.128.220)  0.277 ms  0.227 ms  0.179 ms
+ 2  ibgp.router2.dcga.ams.transip.net (87.253.141.250)  0.229 ms  1.102 ms  0.205 ms
+ 3  asd-s14-rou-1041.NL.eurorings.net (134.222.97.204)  0.590 ms  0.596 ms  0.560 ms
+ 4  asd2-rou-1043.NL.eurorings.net (134.222.93.25)  0.851 ms  0.892 ms  0.852 ms
+ 5  ae9.edge3.Amsterdam1.level3.net (213.244.164.205)  1.292 ms  1.256 ms  1.240 ms
+ 6  * * *
+ 7  UNIVERSITY.edge2.NewYork1.Level3.net (4.71.230.234)  83.410 ms  83.242 ms  83.417 ms
+ 8  core1-rt-xe-0-0-0.gw.umass.edu (192.80.83.101)  83.458 ms  83.344 ms  83.304 ms
+ 9  lgrc-rt-106-8-po-10.gw.umass.edu (128.119.0.233)  117.310 ms  83.339 ms  83.312 ms
+10  128.119.3.32 (128.119.3.32)  83.497 ms  83.397 ms  83.414 ms
+11  nscs1bbs1.cs.umass.edu (128.119.240.253)  85.576 ms  85.516 ms  85.896 ms
+12  gaia.cs.umass.edu (128.119.245.12)  83.591 ms  83.553 ms  83.616 ms
+
+# python traceroute.py 1.1.1.1
+traceroute to 1.1.1.1 (1.1.1.1), 30 hops max
+ 1  v312.router1.dcga.ams.transip.net (37.97.128.220)  10.300 ms  33.238 ms  0.171 ms
+ 2  ibgp.router2.dcga.ams.transip.net (87.253.141.250)  0.228 ms  0.201 ms  0.326 ms
+ 3  transip.telecity2.openpeering.nl (82.150.159.226)  0.818 ms  11.377 ms  0.761 ms
+ 4  * core1.ams.net.google.com (80.249.208.247)  1.521 ms  1.562 ms
+ 5  209.85.248.112 (209.85.248.112)  1.757 ms  1.684 ms  1.809 ms
+ 6  72.14.238.153 (72.14.238.153)  1.778 ms  1.791 ms  1.969 ms
+ 7  216.239.48.85 (216.239.48.85)  7.313 ms  7.337 ms  7.476 ms
+ 8  209.85.143.224 (209.85.143.224)  90.057 ms  90.161 ms  90.188 ms
+ 9  209.85.143.211 (209.85.143.211)  85.787 ms  85.884 ms  86.213 ms
+10  209.85.252.47 (209.85.252.47)  87.177 ms  87.162 ms  87.440 ms
+11  * * *
+12  * * *
+13  * * *
+14  * * *
+15  * * *
+16  * * *
+17  * * *
+18  * * *
+19  * * *
+20  * * *
+21  * * *
+22  * * *
+23  * * *
+24  * * *
+25  * * *
+26  * * *
+27  * * *
+28  * * *
+29  * * *
+30  * * *
+
+# python traceroute.py www.nsa.gov
+traceroute to www.nsa.gov (23.36.84.226), 30 hops max
+ 1  v312.router1.dcga.ams.transip.net (37.97.128.220)  62.027 ms  0.213 ms  0.160 ms
+ 2  ibgp.router2.dcga.ams.transip.net (87.253.141.250)  0.231 ms  0.198 ms  0.198 ms
+ 3  transip.nikhef.openpeering.nl (82.150.159.225)  0.596 ms  0.492 ms  0.813 ms
+ 4  nikhef-ixr.openpeering.nl (217.170.0.242)  0.569 ms  0.716 ms  0.769 ms
+ 5  er1.ams1.nl.above.net (80.249.208.122)  1.487 ms  1.153 ms  1.126 ms
+ 6  ae8.cr1.ams5.nl.zip.zayo.com (64.125.30.205)  1.251 ms  1.265 ms  3.453 ms
+ 7  xe-10-1-1.cr2.lga5.us.zip.zayo.com (64.125.20.169)  85.645 ms  77.404 ms  77.295 ms
+ 8  ae1.cr1.lga5.us.zip.zayo.com (64.125.29.37)  77.502 ms  77.305 ms  78.420 ms
+ 9  ae8.er1.lga5.us.zip.zayo.com (64.125.26.162)  77.584 ms  77.188 ms  77.267 ms
+10  208.184.33.38.IPYX-073920-920-ZYO.above.net (208.184.33.38)  79.930 ms  79.837 ms  79.859 ms
+11  a23-36-84-226.deploy.static.akamaitechnologies.com (23.36.84.226)  80.639 ms  80.659 ms  80.861 ms
+

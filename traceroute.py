@@ -151,7 +151,7 @@ def run():
     Traceroute implementation in Python 3
 
     Usage:
-        traceroute [options] <host>
+        traceroute.py [options] <host>
 
     Options:
         -h,--max-hops=max_ttl   Specifies the maximum number of hops to probe.

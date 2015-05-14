@@ -6,30 +6,30 @@
 # - which OS did you model the output after 
 # - which frameworks did you use 
 
-For this project, we used python 3.4 and the docopt library 
-(https://github.com/docopt/docopt), which helps us with parsing
-the command line arguments. We modelled the output after the 
-linux (ubuntu) traceroute program, and tried to mimic it as much
-as possible.
+For this project, we used python 3.4 and the docopt library
+(https://github.com/docopt/docopt), which helps us with parsing the command line
+arguments. We modelled the output after the Linux (Ubuntu) traceroute program,
+and tried to mimic it as much as possible.
 
-After the arguments are parsed, the traceroute function is called
-with the target host, the maximum timeout and the maximum number 
-of hops. The target host is then pinged with an increasing TTL 
-from 1 to the maximum number of hops. Each TTL number will ping 
-the target host three times. Each ping will return the round-trip
-delay, the address it reached on that round and some possibly some
-info code. The info code tells us whether the ping timed out or 
-the destination is reached. 
-  The doOnePing function crafts a raw ICMP socket and sets the 
-correct TTL. It then sends one ping and receives the result. 
-  The sendOnePing function crafts an ICMP header and sends it to
-the target address.
-  The receiveOnePing function tries to receive the response until
-it takes longer than the given timeout. If a timeout occurred, the
-function will return that to the caller. The function will parse
-the headers and will return the correct round trip time and 
-address, whether the packet arrived at it's destination or the 
-packet was dropped due to an exceeded TTL.
+After the arguments are parsed, the traceroute function is called with the
+target host, the maximum timeout and the maximum number of hops. The target host
+is then pinged with an increasing TTL from 1 to the maximum number of hops. Each
+TTL number will ping the target host three times. Each ping will return the
+round-trip delay, the address it reached on that round and some possibly some
+info code. The info code tells us whether the ping timed out or the destination
+is reached.
+
+  The doOnePing function crafts a raw ICMP socket and sets the correct TTL. It
+then sends one ping and receives the result.
+
+  The sendOnePing function crafts an ICMP header and sends it to the target
+address.
+
+  The receiveOnePing function tries to receive the response until it takes
+longer than the given timeout. If a timeout occurred, the function will return
+that to the caller. The function will parse the headers and will return the
+correct round trip time and address, whether the packet arrived at it's
+destination or the packet was dropped due to an exceeded TTL.
 
 # You should then explain how the implementation would change were 
 # the Traceroute program send TCP crafted packets over raw sockets 
@@ -39,4 +39,19 @@ packet was dropped due to an exceeded TTL.
 # catch responses? What responses would you expect? What would be 
 # some of the limitations? To answer some of these questions, you 
 # might want to look deeper into raw sockets.
-%TODO
+
+TCP traceroute works by trying to open a connection to the destination on
+a certain port and instead of a 'pong' reply, expecting a 'RST' or 'ACK'
+response (respectively in the cases 'port closed' or 'port open'). If the host
+responded with 'ACK', the half-open connection is then closed with a 'RST'
+packet. Like the ICMP or UDP traceroute, it would still use the TTL method and
+TIME_EXCEEDED replies to measure inbetween hops.
+
+Doing this form of traceroute would mean we need to manually forge TCP packets
+on our raw socket and both listen for incoming ICMP TIME_EXCEEDED and TCP
+packets.
+
+This method can still fail if hosts completely DROP packets instead of REJECTing
+them.
+
+(Based on man traceroute(8) and man tcptraceroute(1))
